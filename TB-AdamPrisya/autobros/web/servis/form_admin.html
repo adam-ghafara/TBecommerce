@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autobros - Update Kendaraan</title>
+    <meta name="author" content="David Grzyb">
+    <meta name="description" content="">
+
+    <!-- Tailwind -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+        .font-family-karla { font-family: karla; }
+        .bg-sidebar { background: #3d68ff; }
+        .cta-btn { color: #3d68ff; }
+        .upgrade-btn { background: #1947ee; }
+        .upgrade-btn:hover { background: #0038fd; }
+        .active-nav-link { background: #1947ee; }
+        .nav-item:hover { background: #1947ee; }
+        .account-link:hover { background: #3d68ff; }
+    </style>
+</head>
+<body class="bg-gray-100 font-family-karla flex">
+<aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
+    <div class="p-6">
+        <a id="header" href="/autobros" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">AUTOBROS Admin Center</a>
+    </div>
+    <nav class="text-white text-base font-semibold pt-3">
+        <a id="dashboard" href="/autobros" class="flex items-center opacity-75 hover:opacity-100 text-white py-4 pl-6 nav-item">
+            <i class="fas fa-tachometer-alt mr-3"></i>
+            Dashboard
+        </a>
+        <a id="tabelservis" href="/autobros/tables" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+            <i class="fas fa-table mr-3"></i>
+            Daftar Servis
+        </a>
+        <a id="tambahservis" href="/autobros/tambahservis" class="flex items-center text-white opacity-75 hover:opacity-100 text-white py-4 pl-6 nav-item">
+            <i class="fas fa-align-left mr-3"></i>
+            Tambah Servis Baru
+        </a>
+    </nav>
+    <h1 class="absolute w-full bottom-0 text-white flex items-center justify-center py-4">
+        2023 Autobros
+    </h1>
+</aside>
+        <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+            <main class="w-full flex-grow p-6">
+                <h1 class="w-full text-3xl text-black pb-6">Edit Data</h1>
+                <div class="flex flex-wrap">
+                    <div class="w-full">
+                        <div class="leading-loose">
+                            {{ if .pesan }}
+                            <div class="mb-4 rounded-lg bg-success-100 px-6 py-5 text-base text-success-700" role="alert">
+                                {{ .pesan }}
+                            </div>
+                            {{ end }}
+                            {{ .range.admins }}
+                            <form action="/autobros/tables/updateservis" method="post" class="p-10 bg-white rounded shadow-xl">
+                                <div class="" name="nama_pemilik">
+                                    <label class="block text-sm text-gray-600">Nama Pemilik</label>
+                                    <input class="form-control {{ if .validation.NamaPemilik }} is-invalid {{ end }} w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" value="{{ .kendaraan.NamaPemilik }}" id="name-owner" name="nama_pemilik" type="text" required="" placeholder="Your Name" aria-label="Name">
+                                    <div class="invalid-feedback">
+                                        {{ .validation.NamaPemilik }}
+                                    </div>
+                                </div>
+                                <div class="" name="nama_kendaraan">
+                                    <label class="block text-sm text-gray-600">Nama Kendaraan</label>
+                                    <input class="form-control {{ if .validation.NamaKendaraan }} is-invalid {{ end }} w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" value="{{ .kendaraan.NamaKendaraan }}" id="name-vehicle" name="nama_kendaraan" type="text" required="" placeholder="Your Name" aria-label="Name">
+                                    <div class="invalid-feedback">
+                                        {{ .validation.NamaKendaraan }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Jenis Kendaraan</label>
+                                    <div class="form-group">
+                                        <select id="id_jenis" name="id_jenis" class="form-control {{ if .validation.JenisID }} is-invalid {{ end }} bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                            <option selected>Pilih Kode..</option>
+                                            <option {{ if eq .kendaraan.JenisID `0` }} selected {{ end }} value="0">Mobil</option>
+                                            <option {{ if eq .kendaraan.JenisID `1` }} selected {{ end }} value="1">Motor</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            {{ .validation.JenisID }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="" name="nomor_kendaraan">
+                                    <label class="block text-sm text-gray-600">Nomor Kendaraan</label>
+                                    <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="number" value="{{ .kendaraan.NomorKendaraan }}" name="nomor_kendaraan" type="text" required="" placeholder="Your Name" aria-label="Name">
+                                </div>
+                                <div class="mt-2">
+                                    <label class=" block text-sm text-gray-600">Detail Servis</label>
+                                    <textarea name="detail_servis" class="form-control {{ if .validation.DetailServis }} is-invalid {{ end }} w-full px-5 py-2 text-gray-700 bg-gray-200 rounded" id="message" rows="6" required="" value="{{ .kendaraan.DetailServis }}" placeholder="Detail..." aria-label="text"></textarea>
+                                    <div class="invalid-feedback">
+                                        {{ .validation.DetailServis }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status Servis</label>
+                                    <select name="status_servis" class="form-control {{ if .validation.JenisID }} is-invalid {{ end }}">
+                                        <option value="">Status Servis</option>
+                                        <option {{ if eq .kendaraan.StatusServis `Pending` }} selected {{ end }} value="Pending">Pending</option>
+                                        <option {{ if eq .kendaraan.StatusServis `Dalam Perbaikan` }} selected {{ end }} value="Dalam Perbaikan">Dalam Perbaikan</option>
+                                        <option {{ if eq .kendaraan.StatusServis `Selesai` }} selected {{ end }} value="Selesai">Selesai</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        {{ .validation.StatusServis }}
+                                    </div>
+                                </div>
+                                <div class="form-group mt-6">
+                                    <button class="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded" onclick="return confirm('Apakah yakin Data yang di ubah sudah benar?')" type="submit">Ubah</button>
+                                </div>
+                            </form>
+                            {{ end }}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+    <!-- AlpineJS -->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+</body>
+</html>

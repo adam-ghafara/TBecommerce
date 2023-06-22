@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind Admin Template</title>
+    <meta name="author" content="David Grzyb">
+    <meta name="description" content="">
+
+    <!-- Tailwind -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+        .font-family-karla { font-family: karla; }
+        .bg-sidebar { background: #3d68ff; }
+        .cta-btn { color: #3d68ff; }
+        .upgrade-btn { background: #1947ee; }
+        .upgrade-btn:hover { background: #0038fd; }
+        .active-nav-link { background: #1947ee; }
+        .nav-item:hover { background: #1947ee; }
+        .account-link:hover { background: #3d68ff; }
+    </style>
+</head>
+<body class="bg-gray-100 font-family-karla flex">
+<aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
+    <div class="p-6">
+        <a id="header" href="/autobros" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">AUTOBROS Admin Center</a>
+    </div>
+    <nav class="text-white text-base font-semibold pt-3">
+        <a id="dashboard" href="/autobros" class="flex items-center opacity-75 hover:opacity-100 text-white py-4 pl-6 nav-item">
+            <i class="fas fa-tachometer-alt mr-3"></i>
+            Dashboard
+        </a>
+        <a id="tabelservis" href="/tables" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+            <i class="fas fa-table mr-3"></i>
+            Daftar Servis
+        </a>
+        <a id="tambahservis" href="/tambahservis" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+            <i class="fas fa-align-left mr-3"></i>
+            Tambah Servis Baru
+        </a>
+    </nav>
+    <h1 class="absolute w-full bottom-0 text-white flex items-center justify-center py-4">
+        2023 Autobros
+    </h1>
+</aside>
+        <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+            <main class="w-full flex-grow p-6">
+                <h1 class="text-3xl text-black pb-6">Detail Servis</h1>
+                {{ .range.detail }}
+                <div>
+                    <div class="mt-6 border-t border-gray-100">
+                    <dl class="divide-y divide-gray-100">
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            <dt class="text-sm font-medium leading-6 text-gray-900">Nama Pemilik</dt>
+                            <dd name="nama_pemilik" class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                {{ .Kendaraan.NamaPemilik }}
+                            </dd>
+                        </div>
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Nama Kendaraan</dt>
+                        <dd name="nama_kendaraan" class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                            {{ .Kendaraan.NamaKendaraan }}
+                        </dd>
+                        </div>
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Jenis Kendaraan</dt>
+                        <dd name="id_jenis" class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                            {{ .Kendaraan.JenisKendaraan }}
+                        </dd>
+                        </div>
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Nomor Kendaraan</dt>
+                        <dd name="nomor_kendaraan" class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                            {{ .Kendaraan.NomorKendaraan }}
+                        </dd>
+                        </div>
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Detail Servis</dt>
+                        <dd name="detail_servis" class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                            {{ .Kendaraan.DetailServis }}
+                        </dd>
+                        </div>
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            <dt class="text-sm font-medium leading-6 text-gray-900">Tanggal Servis</dt>
+                            <dd name="tanggal_servis" class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                {{ .Kendaraan.TanggalServis }}
+                            </dd>
+                            </div>
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt class="text-sm font-medium leading-6 text-gray-900">Status Servis</dt>
+                        <dd name="status_servis" class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                            {{ .Kendaraan.StatusServis }}
+                        </dd>
+                            </div>
+                            </ul>
+                        </dd>
+                        </div>
+                        <a href="/autobros/tables/detaildata/updateservis?id={{.ID}}"
+                        class="px-4 py-2 text-blue-100 no-underline bg-blue-500 rounded hover:bg-blue-600 hover:underline hover:text-blue-200">Edit</a>
+                    <a href="/autobros/tables/detaildata/hapusservis?id={{.ID}}" onclick="confirm('Apakah anda ingin menghapus data ini?')"
+                    class="px-4 py-2 text-red-100 no-underline bg-red-500 rounded hover:bg-red-600 hover:underline hover:text-blue-200">Hapus</a>
+                    </dl>
+                    </div>
+                </div>
+                {{ end }}              
+            </main>
+            </footer>
+        </div>
+    </div>
+    <!-- AlpineJS -->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+</body>
+</html>
